@@ -3,9 +3,8 @@ CheckersGame.java is the main class.
 
 #To Do:
 - Add a rule to rules class,
-    - if a jump is avaiable move is only legal if it is a jump. 
-    
-    -if you jump a piece and no more jumps are avaiable with said piece end the game.
+    - if a jump is avaiable move is only legal if it is a jump.
+    - if you jump a piece and no more jumps are avaiable with said piece end the game.
 
 - Sync GUI with Rules representation of the board
     - Write a function to be able to translate array coordinates back to GUI coordinates
