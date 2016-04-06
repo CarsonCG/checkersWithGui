@@ -25,9 +25,6 @@ import javafx.scene.text.Font;
 import javafx.scene.text.TextAlignment;
 
 
-
-
-
 public class CheckersGame extends Application {
 
     private static final int BOARD_SIZE = 8 ;
@@ -37,7 +34,7 @@ public class CheckersGame extends Application {
     private static int toSpace[] = new int[2]; 
     private static int numClicks = 0;
     private static Rules rule;
-    private static Save save = new Save();
+    private final Save save = new Save();
     private static boolean legalMove;
 
     @Override
@@ -45,7 +42,7 @@ public class CheckersGame extends Application {
         primaryStage.setTitle("CheckersGame");
         primaryStage.getIcons().add(new Image("http://a1.mzstatic.com/us/r30/Purple69/v4/fb/b5/81/fbb58164-d1a3-d3f5-68c0-4cd157e9461e/icon175x175.png"));
         Scene scene = new Scene(new Group());
-        GridPane checkerBoard = new GridPane();
+        final GridPane checkerBoard = new GridPane();
         
         String name = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
         
@@ -98,9 +95,9 @@ public class CheckersGame extends Application {
         
  
         MenuBar menuBar = new MenuBar();
-        Menu file = new Menu("File");
-        Menu option = new Menu("Options");
-        Menu edit = new Menu("Edit");
+        Menu file = new Menu("_File");
+        Menu option = new Menu("_Options");
+        Menu edit = new Menu("_Edit");
         MenuItem pSave = new MenuItem("----Save----");
         MenuItem saveMoves = new MenuItem("Save Moves");
         MenuItem saveState = new MenuItem("Save Game State");
@@ -125,6 +122,7 @@ public class CheckersGame extends Application {
     public void handle(MouseEvent event) {
         //save.msgBox(event.getSceneX() + " " + event.getSceneY());
        if (numClicks == 0) {
+           //addSquaresToBoard(checkerBoard); CLEARS BOARD
            piece[0] = getCoord(event.getSceneY(),'x');
            piece[1] = getCoord(event.getSceneX(), 'y');
             save.msgBox(piece[0] + " " + piece[1]);
@@ -134,7 +132,7 @@ public class CheckersGame extends Application {
             toSpace[1] = getCoord(event.getSceneX(), 'y');
             //save.msgBox(toSpace[0] + " " + toSpace[1]);
             numClicks = 0;
-            legalMove = rule.isLegal(piece, toSpace);
+            legalMove = Rules.isLegal(piece, toSpace);
             save.msgBox(legalMove + " ");
         }
         
