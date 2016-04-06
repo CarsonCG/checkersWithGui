@@ -51,7 +51,7 @@ public class CheckersGame extends Application {
             
             if (name.length()>8) save.msgBox("Name too long, Maximum size 8 characters");
         }
-        Label[] p1Name = new Label[(name).length()];
+        Label[] p1Name = new Label[8];
         for (int i = 0; i < name.length(); i++) { 
             p1Name[i] = new Label(name.charAt(i) + " ");
             p1Name[i].setFont(new Font("Arial", 30));
@@ -69,7 +69,7 @@ public class CheckersGame extends Application {
             if (name.length()>8) save.msgBox("Name too long, Maximum size 8 characters");
         };
           
-        Label[] p2Name = new Label[(name).length()];
+        Label[] p2Name = new Label[(8];
         for (int i = 0; i < name.length(); i++) { 
             p2Name[i] = new Label(name.charAt(i) + " ");
             p2Name[i].setFont(new Font("Arial", 30));
@@ -142,9 +142,24 @@ public class CheckersGame extends Application {
     }
 
   
-    private void setNames(){
+    private void changeName(Label lbl[], int pos, GridPane checkerBoard){
+        int player;
+        String name;
         
+        if (pos == 0) player = 1;
+        else player = 2;
+        name = "aaaaaaaaaaaaaaaaaaaaaa";
+        while (name.length() >8) {
+            name = save.inpBox("Player " + player + " Name: ");
+        if (name.length() > 8) save.msgBox("Name too long, Maximum size 8 characters");
+        };
+        
+        for (int i = 0; i < name.length(); i++) 
+            lbl[i].setText(name.charAt(i).toString));
+        for (int i=0; i < name.length(); i++)
+            checkerBoard.add(lbl[i], 0, pos);
     } 
+    
     private int getCoord(double var, char letter) {
         int z;
         int off;
