@@ -132,10 +132,14 @@ public class Rules {
      private  static boolean updateBoard(int piece[], int toSpace[])
      {
          boolean endGame;
+         boolean isKinged;
          
+         isKinged = (Character.isUpperCase(CB[toSpace[0]][toSpace[1]].charAt(1)));
+         //#,#_#,#K
          moveOrder += piece[0] + ',' + piece[1];
          moveOrder += '_' + toSpace[0] + ',' + toSpace[1];
-         moveOrder += turn;
+         if (isKinged) moveOrder += Character.toUpperCase(turn);
+         else moveOrder += turn;
          numMoves++;
          
             if (CB[piece[0]][piece[1]].equals("[r]") && turn == 'r') {
@@ -184,6 +188,30 @@ public class Rules {
           return endGame;
         }
      
+     public static  void playMoves(int[][] pieceMove, int[][] moveToSpace, String[] moves, int toTurn) {
+         int pM[] = new int[2];
+         int sM[] = new int[2];
+            for (int i = 0; i < toTurn; i++) {
+               if (i % 2 == 0) {
+                   if (Character.isUpperCase(moves[i].charAt(7))){
+                       pM[0] = pieceMove[i][0];
+                       pM[1] = pieceMove[i][1];
+                       sM[0] = moveToSpace[i][0];
+                       sM[0] = moveToSpace[i][1];
+                       isLegal(pM, sM);
+                   }
+               } else {
+                    pM[0] = pieceMove[i][0];
+                       pM[1] = pieceMove[i][1];
+                       sM[0] = moveToSpace[i][0];
+                       sM[0] = moveToSpace[i][1];
+                       isLegal(pM, sM);
+               }
+           }
+     }
+     public String[][] getCB() {
+         return CB;
+     }
     
     
 }
