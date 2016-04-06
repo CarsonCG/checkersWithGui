@@ -19,13 +19,17 @@ public class Save {
         {25,  0, 26,  0, 27,  0, 28,  0},
         { 0, 29,  0, 30,  0, 31,  0, 32}
         
-    };
+    }; private static int lpieceMoves[][];
+       private static int ltoSpaceMoves[][];
+       private static int numLoadedMoves;
+       private static int startTurn;
+       private static String[] moves;
     
      public  void saveMoves(String moveOrder, int numMoves) 
              throws IOException{
        PrintStream P; 
        File Save;
-       String moves[];
+ 
        
        moves = new String[moveOrder.length() % 8];
        Save = new File(getSavePath().toString());
@@ -34,23 +38,25 @@ public class Save {
        for (int i = 0; i <= numMoves; i++) 
                P.print(moves[i] + "\n");
      }
-     public boolean loadSavedMoves(String moveOrder, int numMoves) 
-             throws IOException{
+     public void loadSavedMoves(String[][] CB) throws IOException{
        File Save;
        Save = new File(getOpenPath().toString());
        boolean valid;
+       int numMoves;
        Scanner fileIn;
        
        valid = true;
-       System.out.println(" "+ Save.exists());
+       numMoves = 0;
+       //System.out.println(" "+ Save.exists());
        if(Save.exists()) {
            fileIn = new Scanner(Save);
            
            try {
            numMoves = Integer.parseInt(fileIn.next());
-           moveOrder = null;
+           numLoadedMoves = numMoves;
+           moves = new String[numMoves];
            for (int i = 0; i <= numMoves; i++) {
-               moveOrder += fileIn.next();
+               moves[i] = fileIn.next();
                }
             } catch (Exception e) {
                    msgBox("Invalid File!");
@@ -60,7 +66,33 @@ public class Save {
            msgBox("File Does Not Exist!");
            valid = false;
        }
-       return valid;
+       
+         //#,#_#,#c
+       if (valid == true && numMoves != 0){
+           lpieceMoves = new int[numMoves][2];
+           ltoSpaceMoves = new int[numMoves][2];
+           
+           for (int i = 0; i < numMoves; i++) {
+               lpieceMoves[i][0] = moves[i].charAt(0);
+               lpieceMoves[i][1] = moves[i].charAt(2);
+               
+               ltoSpaceMoves[i][0] = moves[i].charAt(4);
+               ltoSpaceMoves[i][1] = moves[i].charAt(6);
+           }
+           
+           startTurn = Integer.parseInt(inpBox("What move do you want to start on? (1-" + numMoves));
+        Rules.playMoves(lpieceMoves, ltoSpaceMoves, moves, startTurn);
+       }
+     }
+     
+     public void lmForawrd() {
+         startTurn++;
+        Rules.playMoves(lpieceMoves, ltoSpaceMoves, moves, startTurn);
+     }
+     
+     public void lmBackwards() {
+         if (startTurn != 1) startTurn--;
+         Rules.playMoves(lpieceMoves, ltoSpaceMoves, moves, startTurn);
      }
 
      
@@ -184,10 +216,25 @@ public class Save {
         setCoord(bUserInput, bCoord);
         for (int i = 0; i < 12; i++) 
             if (bCoord[i][0] != -1) CB[bCoord[i][0]][bCoord[i][1]] = "[b]";
+        
+        for (int i = 0; i < 8; i++){
+            for (int count = 0; count < 8; count++)
+                CB[i][count] = "[_]";
+        }
+        
+        for (int i = 0; i < 12; i++) {
+            if (CB[rCoord[i][0]][rCoord[i][1]].equals("[_]")) 
+                CB[rCoord[i][0]][rCoord[i][1]] = "[r]";
+                
+            if (CB[bCoord[i][0]][bCoord[i][1]].equals("[_]")) 
+                CB[bCoord[i][0]][bCoord[i][1]] = "[b]";
+            
+        }
     }
      
      
-     public String inpBox(String dialogue) {
+     
+    public String inpBox(String dialogue) {
          String input;
          
          input = JOptionPane.showInputDialog(null, dialogue);
