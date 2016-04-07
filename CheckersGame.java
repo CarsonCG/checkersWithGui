@@ -55,7 +55,7 @@ public class CheckersGame extends Application {
             p1Name[i] = new Label(name.charAt(i) + " ");
             p1Name[i].setFont(new Font("Arial", 30));
             //charName[i].setTextFill(Color.web("#0076a3"));
-            p1Name[i].setTextFill(Color.web("#F00000"));
+            p1Name[i].setTextFill(new ImagePattern(rpPattern));
             p1Name[i].setTextAlignment(TextAlignment.JUSTIFY);
         }
         for (int i = 0; i < name.length(); i++)
@@ -72,8 +72,8 @@ public class CheckersGame extends Application {
         for (int i = 0; i < name.length(); i++) { 
             p2Name[i] = new Label(name.charAt(i) + " ");
             p2Name[i].setFont(new Font("Arial", 30));
-            p2Name[i].setTextFill(Color.web("#0076a3"));
-            //p2Name[i].setTextFill(Color.web("#F00000"));
+            //p2Name[i].setTextFill(Color.web("#0076a3"));
+            p2Name[i].setTextFill(new ImagePattern(bpPattern));
             p2Name[i].setTextAlignment(TextAlignment.JUSTIFY);
         }
         for (int i = 0; i < name.length(); i++)
@@ -93,7 +93,7 @@ public class CheckersGame extends Application {
         primaryStage.setScene(new Scene(root, 400, 530,Color.BLACK));
         //primaryStage.setImage(new ImagePattern(backgroundPattern));
         //primaryStage.setBackground(new ImagePattern(backgroundPattern);
-        root.setStyle("-fx-background-image: url('http://grapplegraphics.com/wp-content/uploads/2013/04/05-Light-Grey-Tiny-Diamonds-Pattern.jpg')");  
+        root.setStyle("-fx-background-image: url('https://i.imgur.com/RdziiIP.jpg')");  
  
         MenuBar menuBar = new MenuBar();
         Menu file = new Menu("_File");
