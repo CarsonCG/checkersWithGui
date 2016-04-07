@@ -1,10 +1,6 @@
 package checkersgame;
 
-import java.awt.Dimension;
-import java.awt.GraphicsDevice;
-import java.awt.GraphicsEnvironment;
-import java.awt.Panel;
-import static java.lang.System.out;
+
 import javafx.application.Application;
 import static javafx.application.Application.launch;
 import javafx.geometry.*;
@@ -20,6 +16,7 @@ import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.image.Image;
+import javafx.scene.paint.ImagePattern;
 import javafx.scene.text.Font;
 import javafx.scene.text.TextAlignment;
 
@@ -34,7 +31,11 @@ public class CheckersGame extends Application {
     private static Rules rule;
     private final Save save = new Save();
     private static boolean legalMove;
-
+    private final Image rsPattern = new Image("http://i.ebayimg.com/00/s/MTI0OFgxMTk3/z/~7AAAOSwT6pV4q5G/$_35.JPG");
+    private final Image bsPattern = new Image("https://d2d00szk9na1qq.cloudfront.net/Product/69903c77-4f40-42a0-a64f-170d13597582/Images/Large_FK-752.jpg");
+    private final Image bpPattern = new Image("http://www.wallpaperhi.com/thumbnails/detail/20120709/black%20and%20white%20minimalistic%20pattern%201680x1050%20wallpaper_www.wallpaperhi.com_79.jpg");
+    private final Image rpPattern = new Image("http://gimpforums.com/attachment.php?aid=2158");
+    
     @Override
     public void start(Stage primaryStage) {
         primaryStage.setTitle("CheckersGame");
@@ -65,9 +66,9 @@ public class CheckersGame extends Application {
             name = save.inpBox("Player 2 Name: ");
             
             if (name.length()>8) save.msgBox("Name too long, Maximum size 8 characters");
-        };
+        }
           
-        Label[] p2Name = new Label[(8];
+        Label[] p2Name = new Label[8];
         for (int i = 0; i < name.length(); i++) { 
             p2Name[i] = new Label(name.charAt(i) + " ");
             p2Name[i].setFont(new Font("Arial", 30));
@@ -89,8 +90,10 @@ public class CheckersGame extends Application {
         BorderPane root;
         root = new BorderPane();
         root.setCenter(checkerBoard);
-        primaryStage.setScene(new Scene(root, 400, 530,Color.LIGHTGRAY));
-        
+        primaryStage.setScene(new Scene(root, 400, 530,Color.BLACK));
+        //primaryStage.setImage(new ImagePattern(backgroundPattern));
+        //primaryStage.setBackground(new ImagePattern(backgroundPattern);
+        root.setStyle("-fx-background-image: url('http://grapplegraphics.com/wp-content/uploads/2013/04/05-Light-Grey-Tiny-Diamonds-Pattern.jpg')");  
  
         MenuBar menuBar = new MenuBar();
         Menu file = new Menu("_File");
@@ -150,10 +153,12 @@ public class CheckersGame extends Application {
         while (name.length() >8) {
             name = save.inpBox("Player " + player + " Name: ");
         if (name.length() > 8) save.msgBox("Name too long, Maximum size 8 characters");
-        };
+        }
         
+        for (int i = 0; i < (8-name.length()); i++)
+            name += " ";
         for (int i = 0; i < name.length(); i++) 
-            lbl[i].setText(name.charAt(i).toString));
+            lbl[i].setText(name.charAt(i)+ "");
         for (int i=0; i < name.length(); i++)
             checkerBoard.add(lbl[i], 0, pos);
     } 
@@ -167,7 +172,7 @@ public class CheckersGame extends Application {
         if (letter == 'x') off = 85;
         
         //var = 77;
-        Save save = new Save();
+        //Save sav = new Save();
         
         z =     (((var - off)) < 0) ? -1
                 :((var-off) <= 50) ? 0
@@ -189,6 +194,10 @@ public class CheckersGame extends Application {
             for (int col = 0; col < BOARD_SIZE; col++) {
                 Rectangle rect = new Rectangle(SQUARE_SIZE,
                         SQUARE_SIZE, squareColors[(row+col)%2]);
+                if ((row + col) %2 == 0)
+                    rect.setFill(new ImagePattern(rsPattern));
+                else
+                    rect.setFill(new ImagePattern(bsPattern));
                 rect.setMouseTransparent(true);
  
                 board.add(rect, col,row);
@@ -201,15 +210,17 @@ public class CheckersGame extends Application {
         for (int i=0; i<NUM_PIECES; i++) {
             redPieces[i] = new Circle(SQUARE_SIZE/2-4, Color.RED);
             redPieces[i].setStroke(Color.DARKRED);
+            redPieces[i].setFill(new ImagePattern(rpPattern));
             checkerBoard.add(redPieces[i],
                     (i%(BOARD_SIZE/2) * 2 + (2*i/BOARD_SIZE)%2),
                     (BOARD_SIZE - 1 - (i*2)/BOARD_SIZE)+1);
 
-            Circle c = new Circle(SQUARE_SIZE/2 -4, Color.LIGHTBLUE);
+            Circle c = new Circle(SQUARE_SIZE/2 -4, Color.BLACK);
             c.setMouseTransparent(true);
             //Mouse events not registered 
             blackPieces[i] = c;
             blackPieces[i].setStroke(Color.DARKBLUE);
+            blackPieces[i].setFill(new ImagePattern(bpPattern));
             checkerBoard.add(blackPieces[i],
                     i%(BOARD_SIZE/2) * 2 + (1 + 2*i/BOARD_SIZE)%2,
                     ((i*2)/BOARD_SIZE)+1);
@@ -242,4 +253,3 @@ public class CheckersGame extends Application {
         launch(args);
     }
 }
-
